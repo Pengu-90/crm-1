@@ -1,0 +1,4 @@
+#06357a
+4380db
+
+public function signupUser($num, $addr, $city, $prov, $zip, $country, $email)
