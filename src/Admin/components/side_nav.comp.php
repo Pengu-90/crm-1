@@ -82,7 +82,7 @@
                             </nav>
                         </div> -->
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon d-flex"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
+                    <div class="sb-nav-link-icon d-flex"><img src="../img/orders.svg" alt=""></div>
                     Orders
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
@@ -95,7 +95,7 @@
                     </nav>
                 </div>
                 <a class="nav-link" href="./main.php?page=history">
-                    <div class="sb-nav-link-icon"><img src="../img/material-symbols--book-ribbon-outline-sharp.svg" alt=""></i></div>
+                    <div class="sb-nav-link-icon"><img src="../img/bar-chart-4-bars.svg" alt=""></i></div>
                     Sales
                 </a>
                 <a class="nav-link" href="./main.php?page=history">

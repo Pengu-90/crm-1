@@ -4,7 +4,11 @@
         <div class="col-xl-3 col-md-6">
             <div class="card bg-primary text-white mb-4 rounded-0">
                 <div class="card-body">
-                    <h4>Customers</h4>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Customers</h4>
+                        <img src="../img/account-box-sharp.svg" alt="">
+
+                    </div>
                     <h1 class="ps-3">1000000</h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -15,7 +19,11 @@
         <div class="col-xl-3 col-md-6">
             <div class="card bg-warning text-dark mb-4 rounded-0">
                 <div class="card-body bg-white rounded">
+                <div class="d-flex justify-content-between align-items-center">
                     <h5 class="">Pending Orders</h5>
+                    <img src="../img/pending-actions.svg" alt="">
+
+                </div>
                     <h1 class="ps-3 text-dark">
                         <?php 
                         include '../../PHP/includes/fetchPendingTotal.inc.php'
@@ -30,7 +38,11 @@
         <div class="col-xl-3 col-md-6">
             <div class="card bg-danger text-white mb-4 rounded-0">
                 <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
                     <h5 class="">Cancelled Orders</h5>
+                    <img src="../img/cancel.svg" alt="">
+
+                </div>
                     <h1 class="ps-3 text-white">100</h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -41,7 +53,11 @@
         <div class="col-xl-3 col-md-6">
             <div class="card bg-success text-white mb-4 rounded-0">
                 <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
                     <h5>Delivered</h5>
+                    <img src="../img/delivery-truck-speed-rounded.svg" alt="">
+                    
+                </div>
                     <h1 class="ps-3">1000</h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
