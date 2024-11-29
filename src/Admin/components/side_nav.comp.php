@@ -98,7 +98,7 @@
                     <div class="sb-nav-link-icon"><img src="../img/bar-chart-4-bars.svg" alt=""></i></div>
                     Sales
                 </a>
-                <a class="nav-link" href="./main.php?page=history">
+                <a class="nav-link" href="./main.php?page=users">
                     <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
                     Users
                 </a>

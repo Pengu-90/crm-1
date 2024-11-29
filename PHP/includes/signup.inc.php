@@ -11,7 +11,9 @@ if ($data != null) {
     $firstname = $data['firstname'];
     $username = $data['username'];
     $password = $data['password'];
+    $email = $data['email'];
+    $address = $data['address'];
 
-    $controller = new SignupController($lastname, $firstname, $username, $password);
+    $controller = new SignupController($lastname, $firstname, $username, $password, $email, $address);
     $controller->signup();
 }

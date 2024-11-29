@@ -1,13 +1,14 @@
 <?php
 class Signup extends DbConn
 {
-    public function signupUser($fname, $lname, $user, $pwd)
+    public function signupUser($fname, $lname, $user, $pwd, $email, $address)
     {
         if ($this->checkDuplicate($user) > 0) {
             print_r('duplicate');
             exit();
         } else {
             $conn = $this->connect();
+
             $stmt = $conn->prepare("INSERT INTO users_tbl (`username`, `password`, `role`) VALUES (?,?,?)");
 
             $role = 'user';
@@ -20,10 +21,28 @@ class Signup extends DbConn
 
             $userId = $conn->lastInsertId();
 
+            $stmt = $conn->prepare("INSERT INTO `contact_tbl`(`email`) VALUES (?)");
 
-            $stmt = $conn->prepare("INSERT INTO customer_tbl (`first_name`, `last_name`, `Id`) VALUES (?,?,?)");
+            if (!$stmt->execute(array($email))) {
+                $stmt = null;
+                exit();
+            }
 
-            if (!$stmt->execute(array($fname, $lname, $userId))) {
+            $contactId = $conn->lastInsertId();
+
+            $stmt = $conn->prepare("INSERT INTO `address_tbl`(`address_line`) VALUES (?)");
+
+            if (!$stmt->execute(array($address))) {
+                $stmt = null;
+                exit();
+            }
+
+            $addressId = $conn->lastInsertId();
+
+
+            $stmt = $conn->prepare("INSERT INTO customer_details (`first_name`, `last_name`, `Id`, `contact_id`, `address_id`) VALUES (?,?,?,?,?)");
+
+            if (!$stmt->execute(array($fname, $lname, $userId, $contactId, $addressId))) {
                 $stmt = null;
                 exit();
             }

@@ -18,27 +18,36 @@
             <form action="" method="post" id="signup_form">
                 <h1 class="text-center mb-5">SIGN UP</h1>
                 <div class="form-group">
-                    <label for="city">Lastname</label>
+                    <label for="lastname">Lastname</label>
                     <input class="form-control d-block mb-3" type="text" name="lastname" id="lastname" placeholder="Last Name">
                 </div>
                 <div class="form-group">
-                    <label for="city">Firstname</label>
-                    <input class="form-control d-block mb-3" type="text" name="firstname" id="firstname" placeholder="First Name"><br>
+                    <label for="firstname">Firstname</label>
+                    <input class="form-control d-block mb-3" type="text" name="firstname" id="firstname" placeholder="First Name">
                 </div>
                 <div class="form-group">
-                    <label for="city">Username</label>
+                    <label for="address">Address</label>
+                    <input class="form-control d-block mb-3" type="text" name="address" id="address" placeholder="Address"><br>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
         
-                    <input class="form-control d-block mb-3" type="text" name="username" id="username" placeholder="Username"><br>
+                    <input class="form-control d-block mb-3" type="text" name="email" id="email" placeholder="Email"><br>
         
                 </div>
                 <div class="form-group">
-                    <label for="city">Password</label>
+                    <label for="username">Username</label>
+                    <input class="form-control d-block mb-3" type="text" name="username" id="username" placeholder="Username">
+        
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
         
                     <input class="form-control d-block mb-3" type="password" name="password" id="password" placeholder="Password">
         
                 </div>
                 <div class="form-group">
-                    <label for="city">Confirm Password</label>
+                    <label for="password2">Confirm Password</label>
         
                     <input class="form-control d-block" type="password" name="password2" id="password2" placeholder="Confirm Password"><br><br>
         

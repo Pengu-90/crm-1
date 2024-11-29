@@ -26,6 +26,8 @@ signup.addEventListener("submit", (e) => {
       body: JSON.stringify({
         lastname: lastname.value,
         firstname: firstname.value,
+        email: email.value,
+        address: address.value,
         username: username.value,
         password: password.value,
       }),

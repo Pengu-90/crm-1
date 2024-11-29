@@ -44,6 +44,8 @@ include '../../PHP/includes/session_handler.inc.php';
                     include './pages/orders_pending.page.php';
                 } else if ($_GET['page'] == 'orders_delivered') {
                     include './pages/orders_delivered.page.php';
+                } else if ($_GET['page'] == 'users') {
+                    include './pages/users.page.php';
                 }
                 ?>
             </main>
