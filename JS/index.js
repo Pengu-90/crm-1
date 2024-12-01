@@ -42,13 +42,13 @@ login.addEventListener('submit', (e) => {
             pwd: password
         })
     })
-        .then(res => res.text())
+        .then(res => res.json())
         .then(data => {
             if (data != null) {
                 // location.href = './src/user/candidates.php';
-                if (data == 'user') {
-                    location.href = './src/Client/main.php';
-                } else if (data == 'admin') {
+                if (data['Role'] == 'user') {
+                    location.href = './src/Client/main.php?user=' + data['Id'];
+                } else if (data['Role'] == 'admin') {
                     location.href = './src/Admin/main.php?page=dashboard';
                 } else {
                     message_box.style.display = 'flex';

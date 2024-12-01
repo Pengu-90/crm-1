@@ -1,5 +1,6 @@
 <?php
 session_start();
+$user = $_GET['user'];
 ?>
 
 <!DOCTYPE html>
@@ -19,23 +20,27 @@ session_start();
 <body>
     <?php
     include './components/top_nav.comp.php';
+    include './components/modals/orders.modal.php';
+    include './components/modals/cart.modal.php';
     ?>
     <div id="carouselExampleSlidesOnly" class="carousel slide bg-dark overflow-hidden" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false">
         <div class="carousel-inner mt-4 h-100">
             <div class="carousel-item active">
                 <div class="row  position-relative">
-                    <div class="banner_content col-5 bg-dark d-flex align-items-center" style="height: 80vh !important;">
-                        <img class="d-block w-100" src="../img/jinx.jpg" alt="first slide">
-
-                    </div>
                     <div id="banner">
                     </div>
-                    <div class="col-7 text-white banner_content">
+                    <div class="col-12 text-white banner_content" style="height: 80vh !important;">
                         <div class="d-flex justify-content-center align-items-center h-100">
 
-                            <div class="w-75 shadow p-4 text-center">
-                                <img class="d-block w-100" src="../img/arcane.jpg" alt="Second slide">
-                                <p>Amid the stark discord of twin cities Piltover and Zaun, two sisters fight on rival sides of a war between magic technologies and clashing convictions.</p>
+                            <div class="w-50 shadow p-4 text-center rounded border">
+                                <div class="d-flex justify-content-center w-100">
+                                    <img class="d-block w-75" src="../img/arcane.jpg" alt="Second slide">
+
+                                </div>
+                                <div class="d-flex justify-content-center w-100 mt-2">
+                                    <p class="w-100">Amid the stark discord of twin cities Piltover and Zaun, two sisters fight on rival sides of a war between magic technologies and clashing convictions.</p>
+
+                                </div>
 
                             </div>
                         </div>
@@ -45,13 +50,9 @@ session_start();
             </div>
             <div class="carousel-item">
                 <div class="row  position-relative">
-                    <div class="banner_content col-5 bg-dark d-flex align-items-center" style="height: 80vh !important;">
-                        <img class="d-block w-100" src="../img/Arcane_hex.jpg" alt="Second slide">
-
-                    </div>
                     <div id="banner2">
                     </div>
-                    <div class="col-7 text-white banner_content">
+                    <div class="col-12 text-white banner_content" style="height: 80vh !important;">
                         <div class="d-flex justify-content-center align-items-center h-100">
 
                             <div class="w-75 p-4 text-center">
@@ -76,8 +77,7 @@ session_start();
                     <div class="overflow-hidden mb-2" id="prod1"></div>
                     <h3>Shimmer</h3>
                     <weak>PHP 180.00</weak>
-                    <a class="btn btn-primary mt-2" href="./prod1.php">Buy Now</a>
-
+                    <a class="btn btn-primary mt-2" href="./prod1.php?user=<?php echo $user?>">Buy Now</a>
                 </div>
 
             </div>
@@ -86,7 +86,7 @@ session_start();
                     <div class="overflow-hidden mb-2" id="prod2"></div>
                     <h3>Hex Crystal</h3>
                     <weak>PHP 250.00</weak>
-                    <a class="btn btn-primary mt-2" href="./prod2.php">Buy Now</a>
+                    <a class="btn btn-primary mt-2" href="./prod2.php?user=<?php echo $user?>">Buy Now</a>
 
                 </div>
             </div>

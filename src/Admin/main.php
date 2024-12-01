@@ -27,6 +27,8 @@ include '../../PHP/includes/session_handler.inc.php';
 
 <body class="sb-nav-fixed">
     <?php
+    include './components/modals/user_details.modal.php';
+
     include './components/top_nav.comp.php';
     ?>
     <div id="layoutSidenav">

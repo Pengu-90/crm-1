@@ -59,7 +59,7 @@
 
                                             <span class="create-acc-contain d-flex justify-content-center text-white" style="font-size: 11pt !important;">
                                                 Don't have an account?
-                                                <a class="create-acc-link" href="./src/Client/pages/sign_up.php">Sign up</a>
+                                                <a class="create-acc-link" href="./src/Client/pages/sign_up.page.php">Sign up</a>
                                             </span>
 
                                             <!-- <a href="">Use a code</a> -->

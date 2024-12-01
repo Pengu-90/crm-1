@@ -35,8 +35,9 @@ signup.addEventListener("submit", (e) => {
       .then((res) => res.text())
       .then((data) => {
         if(data != null) {
-            console.log(data)
+            location.href = "../../../index.php";
         }
       });
   }
 });
+

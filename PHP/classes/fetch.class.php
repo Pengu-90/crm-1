@@ -110,9 +110,15 @@ class Fetch extends DbConn
                         <?php echo $details[0]['email']; ?>
                     </div>
                 </td>
-                <td><button class="btn btn-primary btn-sm">View</button></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#user_detail" onclick="user_details('<?php echo $details[0]['first_name']; ?>','<?php echo $details[0]['last_name']; ?>','<?php echo $details[0]['address_line']; ?>','<?php echo $details[0]['city']; ?>','<?php echo $details[0]['province']; ?>','<?php echo $details[0]['zipcode']; ?>','<?php echo $details[0]['country']; ?>','<?php echo $details[0]['email']; ?>','<?php echo $details[0]['number']; ?>','<?php echo $details[0]['Username']; ?>')">
+                        View
+                    </button>
+                </td>
             </tr>
 <?php
         }
     }
+
+   
 }

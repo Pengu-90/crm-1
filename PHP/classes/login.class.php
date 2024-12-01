@@ -25,7 +25,13 @@ class Login extends DbConn
         } else {
             session_start();
             $_SESSION['user'] = $user[0]['Id'];
-            print_r($user[0]['Role']);
+            $userInfo = [
+                'Id' => $user[0]['Id'],
+                'Role' => $user[0]['Role']
+            ];
+
+            $data = json_encode($userInfo);
+            print_r($data);
         }
     }
 }

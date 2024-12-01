@@ -5,15 +5,18 @@
       Jinx Corp
     </a>
     <div class="d-flex">
-      <a href="" class="p-2 text-decoration-none text-white">Products</a>
+      <a href="./main.php?user=<?php echo $user?>" class="p-2 text-decoration-none text-white">Home</a>
+      
       <?php
       if (!isset($_SESSION['user'])) {
-      ?>
+        ?>
         <button class="btn btn-outline-primary ms-4 px-3" onclick="login()">Login</button>
-
-      <?php
+        
+        <?php
       } else {
-      ?>
+        ?>
+        <a href="#" class="p-2 text-decoration-none text-white" data-bs-toggle="modal" data-bs-target="#cart">Cart</a>
+        <a href="#" class="p-2 text-decoration-none text-white" data-bs-toggle="modal" data-bs-target="#orders">Orders</a>
         <button class="btn btn-danger ms-4 px-3" onclick="logout()">Logout</button>
       <?php
       }
