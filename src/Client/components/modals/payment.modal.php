@@ -10,7 +10,7 @@
                 <div class="">
                     <input type="number" name="amount" id="amount" disabled hidden>
                     Total amount:
-                    <strong class="d-inline-block" id="amount_show">1000</strong>
+                    <h5 class="d-inline-block" id="amount_show">1000</h5>
                     <p class="d-inline">PHP</p>
                 </div>
                 <select name="method" id="method" class="w-100 form-control mt-2">

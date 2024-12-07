@@ -28,6 +28,9 @@ include '../../PHP/includes/session_handler.inc.php';
 <body class="sb-nav-fixed">
     <?php
     include './components/modals/user_details.modal.php';
+    include './components/modals/user_add.modal.php';
+    include './components/modals/task_assign.modal.php';
+    include './components/modals/emp_add.modal.php';
 
     include './components/top_nav.comp.php';
     ?>
@@ -44,10 +47,20 @@ include '../../PHP/includes/session_handler.inc.php';
                     include './pages/dashboard.page.php';
                 } else if ($_GET['page'] == 'orders_pending') {
                     include './pages/orders_pending.page.php';
+                } else if ($_GET['page'] == 'orders_process') {
+                    include './pages/orders_process.page.php';
                 } else if ($_GET['page'] == 'orders_delivered') {
                     include './pages/orders_delivered.page.php';
+                } else if ($_GET['page'] == 'orders_cancelled') {
+                    include './pages/orders_cancelled.page.php';
                 } else if ($_GET['page'] == 'users') {
                     include './pages/users.page.php';
+                } else if ($_GET['page'] == 'tickets') {
+                    include './pages/tickets.page.php';
+                } else if ($_GET['page'] == 'task') {
+                    include './pages/tasks.page.php';
+                } else if ($_GET['page'] == 'emp') {
+                    include './pages/employee.page.php';
                 }
                 ?>
             </main>

@@ -27,6 +27,15 @@ class SignupController extends Signup
         $this->signupUser($this->fname, $this->lname, $this->user, $this->pwd, $this->email, $this->address);
     }
 
+    public function signup_emp()
+    {
+        if ($this->checkEmpty() != false) {
+            print_r(false);
+            exit();
+        }
+        $this->signupEmp($this->fname, $this->lname, $this->user, $this->pwd, $this->email);
+    }
+
     public function checkEmpty()
     {
         if (empty($this->lname) || empty($this->fname) || empty($this->user) || empty($this->pwd)) {

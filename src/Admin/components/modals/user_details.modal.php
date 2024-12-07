@@ -49,7 +49,7 @@
                         <input type="text" name="username" id="username" class="form-control">
                     </div>
                     <div class="input-group mb-2 mt-3">
-                        <input type="password" name="pwd" id="pwd" class="form-control" placeholder="Enter password">
+                        <input type="password" name="pwd" id="pwd" class="form-control" placeholder="Enter New Password">
                         <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
                             <i class="bi bi-eye"></i>
                         </span>

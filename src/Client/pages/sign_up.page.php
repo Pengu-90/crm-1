@@ -16,7 +16,11 @@
     <div class="wrapper w-100 h-100 d-flex justify-content-center p-5 bg-dark">
         <div class="box card w-25 d-flex bg-dark p-4 text-white">
             <form action="" method="post" id="signup_form">
-                <h1 class="text-center mb-5">SIGN UP</h1>
+                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                    <h2>Sign Up</h2>
+                    <img src="../../img/jinx_graffiti.png" alt="" style="width: 2em;">
+
+                </div>
                 <div class="form-group">
                     <label for="lastname">Lastname</label>
                     <input class="form-control d-block mb-3" type="text" name="lastname" id="lastname" placeholder="Last Name">
@@ -31,33 +35,33 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-        
+
                     <input class="form-control d-block mb-3" type="text" name="email" id="email" placeholder="Email"><br>
-        
+
                 </div>
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input class="form-control d-block mb-3" type="text" name="username" id="username" placeholder="Username">
-        
+
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-        
+
                     <input class="form-control d-block mb-3" type="password" name="password" id="password" placeholder="Password">
-        
+
                 </div>
                 <div class="form-group">
                     <label for="password2">Confirm Password</label>
-        
+
                     <input class="form-control d-block" type="password" name="password2" id="password2" placeholder="Confirm Password"><br><br>
-        
+
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary w-100" type="submit" name="signup" id="signup">Sign up</button>
-        
+
                 </div>
             </form>
-    
+
         </div>
 
     </div>

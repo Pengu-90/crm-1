@@ -51,6 +51,48 @@ class Signup extends DbConn
         }
     }
 
+    public function signupEmp($fname, $lname, $user, $pwd, $email)
+    {
+        if ($this->checkDuplicate($user) > 0) {
+            print_r('duplicate');
+            exit();
+        } else {
+            $conn = $this->connect();
+
+            $stmt = $conn->prepare("INSERT INTO users_tbl (`username`, `password`, `role`) VALUES (?,?,?)");
+
+            $role = 'employee';
+            $pwd_hash = password_hash($pwd, PASSWORD_BCRYPT);
+
+            if (!$stmt->execute(array($user, $pwd_hash, $role))) {
+                $stmt = null;
+                exit();
+            }
+
+            $userId = $conn->lastInsertId();
+
+            $stmt = $conn->prepare("INSERT INTO `contact_tbl`(`email`) VALUES (?)");
+
+            if (!$stmt->execute(array($email))) {
+                $stmt = null;
+                exit();
+            }
+
+            $contactId = $conn->lastInsertId();
+
+            $availability = true;
+
+            $stmt = $conn->prepare("INSERT INTO `employees_tbl`(`emp_lname`, `emp_fname`, `Id`, `contact_id`, `availability`) VALUES (?,?,?,?,?)");
+
+            if (!$stmt->execute(array($fname, $lname, $userId, $contactId, $availability))) {
+                $stmt = null;
+                exit();
+            }
+
+            print_r(true);
+        }
+    }
+
     private function checkDuplicate($usn)
     {
         $stmt = $this->connect()->prepare("SELECT * FROM `users_tbl` WHERE `Username` = ?");

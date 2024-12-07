@@ -1,15 +1,19 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4 mb-5">Dashboard</h1>
-    <div class="row mx-3 justify-content-center">
+    <div class="row mx-3 justify-content-center bg-dark pt-2 rounded">
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-primary text-white mb-4 rounded-0">
-                <div class="card-body">
+            <div class="card bg-primary text-white mb-4 rounded">
+                <div class="card-body" style="height: 7em;">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4>Customers</h4>
+                        <h5>Customers</h5>
                         <img src="../img/account-box-sharp.svg" alt="">
 
                     </div>
-                    <h1 class="ps-3">1000000</h1>
+                    <h1 class="ps-3">
+                        <?php
+                        include '../../PHP/includes/fetch_customerTotal.inc.php'
+                        ?>
+                    </h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <!-- <a class="small text-white stretched-link" href="#"></a> -->
@@ -17,62 +21,80 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-dark mb-4 rounded-0">
-                <div class="card-body bg-white rounded">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="">Pending Orders</h5>
-                    <img src="../img/pending-actions.svg" alt="">
+            <div class="card bg-warning text-dark mb-4 rounded">
+                <div class="card-body bg-white rounded" style="height: 7em;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="">Pending Orders</h5>
+                        <img src="../img/pending-actions.svg" alt="">
 
-                </div>
+                    </div>
                     <h1 class="ps-3 text-dark">
-                        <?php 
+                        <?php
                         include '../../PHP/includes/fetchPendingTotal.inc.php'
                         ?>
                     </h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#"></a>
+                    <a class="small text-white stretched-link" href="./main.php?page=orders_pending"></a>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-danger text-white mb-4 rounded-0">
-                <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="">Cancelled Orders</h5>
-                    <img src="../img/cancel.svg" alt="">
+            <div class="card bg-danger text-white mb-4 rounded">
+                <div class="card-body" style="height: 7em;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="">Cancelled Orders</h5>
+                        <img src="../img/cancel.svg" alt="">
 
-                </div>
-                    <h1 class="ps-3 text-white">100</h1>
+                    </div>
+                    <h1 class="ps-3 text-white">0</h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#"></a>
+                    <a class="small text-white stretched-link" href="./main.php?page=orders_cancelled"></a>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-success text-white mb-4 rounded-0">
-                <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5>Delivered</h5>
-                    <img src="../img/delivery-truck-speed-rounded.svg" alt="">
-                    
-                </div>
-                    <h1 class="ps-3">1000</h1>
+            <div class="card bg-success text-white mb-4 rounded">
+                <div class="card-body" style="height: 7em;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5>Delivered</h5>
+                        <img src="../img/delivery-truck-speed-rounded.svg" alt="">
+
+                    </div>
+                    <h1 class="ps-3">
+                        <?php
+                        include '../../PHP/includes/fetchDelivered.inc.php'
+                        ?>
+                    </h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#"></a>
+                    <a class="small text-white stretched-link" href="./main.php?page=orders_delivered"></a>
                 </div>
             </div>
         </div>
 
     </div>
     <div class="row mx-3 mt-5 mb-4">
+    <div class="d-flex justify-content-end">
+        <p id="a">:</p>
+    </div>
         <div class="col-6">
             <div class="card bg-light text-white mb-4 shadow-sm">
-                <div class="card-body">
-                    <strong class="text-dark">Total Sales</strong>
-                    <h1 class="text-dark">1000000</h1>
+                <div class="card-body row justify-content-between">
+                    <div class="col-10">
+                        <strong class="text-dark">Total Sales</strong>
+                        <div class="d-flex text-dark align-items-center gap-2">
+                            <h1 class="text-dark">
+                                <?php
+                                include '../../PHP/includes/fetch_sales.inc.php'
+                                ?>
+                            </h1>
+                            <weak>PHP</weak>
+
+                        </div>
+                    </div>
+                    <img class="col-2 bg-dark rounded" src="../img/attach-money.svg" alt="">
                 </div>
             </div>
         </div>
@@ -81,14 +103,9 @@
                 <div class="card-body">
                     <div class="row">
                         <strong class="text-dark mb-3">Number of Sales</strong>
-                        <div class="col-6">
-                            <strong class="text-dark">Hex Crystal</strong>
-                            <h1 class="text-dark">1000000</h1>
-                        </div>
-                        <div class="col-6">
-                            <strong class="text-dark">Shimmer</strong>
-                            <h1 class="text-dark">1000000</h1>
-                        </div>
+                        <?php
+                        include '../../PHP/includes/fetch_sales_num.inc.php'
+                        ?>
                     </div>
 
                 </div>

@@ -20,7 +20,7 @@
                     <div class="row gap-3">
                         <div class="col-12">
                             <div class="header-contain">
-                                <img src="./src/img/Technocrats_logo.png" alt="">
+                                <img src="./src/img/jinx_graffiti.png" alt="" style="width: 2em;">
 
                             </div>
 

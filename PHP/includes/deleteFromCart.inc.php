@@ -7,12 +7,9 @@ if($data != null) {
     include_once '../classes/cart.class.php';
     include_once '../classes/cart.control.php';
 
-    $user = $data['user'];
-    $qty = $data['qty'];
-    $item = $data['item'];
-    $amount = $data['amount'];
+    $id = $data['itemId'];
 
-    $control = new CartControl($qty, $item, $user, $amount, null);
-    $control->add();
+    $control = new CartControl(null, null, null, null, $id);
+    $control->delete();
 }
 

@@ -1,3 +1,5 @@
+<input type="text" name="user" id="user" value="<?php echo $user ?>" disabled hidden>
+
 <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-dark text-white">
@@ -10,6 +12,7 @@
                 <table class="table table-dark">
                     <thead>
                         <tr class="border">
+                            <th class="t-head"></th>
                             <th class="t-head">Product</th>
                             <th class="t-head">Quantity</th>
                             <th class="t-head">Total</th>
@@ -17,35 +20,30 @@
                         </tr>
 
                     </thead>
-                    <tr>
-                        <td class="">Shimmer</td>
-                        <td class="">2</td>
-                        <td class="">500</td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm">Remove</button>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Shimmer</td>
-                        <td>2</td>
-                        <td>500</td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm">Remove</button>
-
-                        </td>
-                    </tr>
+                    <?php
+                    include '../../PHP/includes/fetch_cart.inc.php';
+                    ?>
                 </table>
 
             </div>
-            <div class="d-flex justify-content-between p-3">
-                <div class="">
-                    <strong class="me-2">Total amount:</strong>
-                    <weak>190 PHP</weak>
+            <div class="modal-footer d-flex justify-content-end p-3">
+                <div>
+                    <weak class="me-2">Total amount:</weak>
+                    <h5 class="d-inline">
+                        <?php
+                        include '../../PHP/includes/fetch_amount.inc.php';
+                        ?>
+                    </h5>
+                    <p class="d-inline">PHP</p>
 
                 </div>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
+            <div class="d-flex justify-content-end px-3 pb-3 gap-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="./pages/payment.page.php?user=<?php echo $user ?>" id="add_submit" class="btn btn-primary">Proceed to Checkout</a>
+
+            </div>
+
         </div>
     </div>
 </div>

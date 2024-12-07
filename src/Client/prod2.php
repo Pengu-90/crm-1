@@ -2,13 +2,13 @@
 include '../../PHP/includes/session_handler.inc.php';
 
 $user = $_GET['user'];
+$page = $_GET['page'];
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php
 include './components/top_nav.comp.php';
-include './components/modals/orders.modal.php';
 include './components/modals/cart.modal.php';
 ?>
 
@@ -22,10 +22,13 @@ include './components/modals/cart.modal.php';
     <script defer src="../../JS/bootstrap/bootstrap.bundle.min.js"></script>
     <script defer src="./js/login.js"></script>
     <script defer src="./js/script_prod.js"></script>
+    <script defer src="./js/script_cart.js"></script>
 
 </head>
 
 <body class="bg-dark">
+    <input type="text" name="page" id="page" value="<?php echo $page ?>" disabled hidden>
+
     <div class="d-flex bg-dark pb-5">
         <div class="row justify-content-center w-100 mt-5">
             <div class="col-xl-7 col-lg-4 col-md-6 col-sm-6 p-4">
@@ -43,15 +46,13 @@ include './components/modals/cart.modal.php';
                             <weak>PHP 250.00</weak>
 
                             <form action="" class="my-3" id="cart_form">
-                                <?php
-                                include './components/modals/payment.modal.php';
-
-                                ?>
                                 <input type="text" name="user" id="user" value="<?php echo $user ?>" disabled hidden>
                                 <input type="text" name="item" id="item" value="2" disabled hidden>
                                 <input class="form-control w-25" type="number" name="qty" id="qty" value="1">
+                                <button type="submit" class="btn btn-primary mt-2 w-100" onclick="selectItem(250)">Add to cart</button>
+
                             </form>
-                            <button class="btn btn-primary mt-2 w-100" data-bs-toggle="modal" data-bs-target="#payment" onclick="selectItem(250)">Add to cart</button>
+                            <!-- <button class="btn btn-primary mt-2 w-100" data-bs-toggle="modal" data-bs-target="#payment" onclick="selectItem(250)">Add to cart</button> -->
 
                         </div>
 

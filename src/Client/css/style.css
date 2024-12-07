@@ -16,7 +16,7 @@ body{
     background-image: url('../../img/isha.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: 5em;
+    background-position: 0;
     opacity: 5%;
 }
 
@@ -31,7 +31,7 @@ body{
     background-image: url('../../img/jinx.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: 5em;
+    background-position: 0;
     opacity: 5%;
 }
 

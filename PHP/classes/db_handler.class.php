@@ -5,7 +5,7 @@ class DbConn {
             $username = 'root';
         $password = '';
 
-        $conn = new PDO('mysql:host=localhost;dbname=crm_db;', $username, $password);
+        $conn = new PDO('mysql:host=localhost;dbname=crmama;', $username, $password);
         
         return $conn;
         } catch (PDOException $e) {

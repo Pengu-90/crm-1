@@ -47,8 +47,10 @@ login.addEventListener('submit', (e) => {
             if (data != null) {
                 // location.href = './src/user/candidates.php';
                 if (data['Role'] == 'user') {
-                    location.href = './src/Client/main.php?user=' + data['Id'];
+                    location.href = './src/Client/main.php?user=' + data['Id'] + '&page=main';
                 } else if (data['Role'] == 'admin') {
+                    location.href = './src/Admin/main.php?page=dashboard';
+                } else if (data['Role'] == 'employee') {
                     location.href = './src/Admin/main.php?page=dashboard';
                 } else {
                     message_box.style.display = 'flex';

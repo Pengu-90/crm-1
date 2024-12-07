@@ -5,7 +5,7 @@
       Jinx Corp
     </a>
     <div class="d-flex">
-      <a href="./main.php?user=<?php echo $user?>" class="p-2 text-decoration-none text-white">Home</a>
+      <a href="./main.php?user=<?php echo $user?>&page=<?php echo $page?>" class="p-2 text-decoration-none text-white">Home</a>
       
       <?php
       if (!isset($_SESSION['user'])) {
@@ -16,7 +16,7 @@
       } else {
         ?>
         <a href="#" class="p-2 text-decoration-none text-white" data-bs-toggle="modal" data-bs-target="#cart">Cart</a>
-        <a href="#" class="p-2 text-decoration-none text-white" data-bs-toggle="modal" data-bs-target="#orders">Orders</a>
+        <a href="#" class="p-2 text-decoration-none text-white">Orders</a>
         <button class="btn btn-danger ms-4 px-3" onclick="logout()">Logout</button>
       <?php
       }
