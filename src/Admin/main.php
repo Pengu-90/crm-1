@@ -1,6 +1,10 @@
 <?php
 include '../../PHP/includes/session_handler.inc.php';
 
+if (isset($_GET['empid'])) {
+    $user = $_GET['empid'];
+    $role = $_GET['role'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

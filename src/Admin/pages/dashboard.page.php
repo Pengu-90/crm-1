@@ -1,6 +1,6 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4 mb-5">Dashboard</h1>
-    <div class="row mx-3 justify-content-center bg-dark pt-2 rounded">
+    <div class="row mx-3 justify-content-center pt-2 rounded">
         <div class="col-xl-3 col-md-6">
             <div class="card bg-primary text-white mb-4 rounded">
                 <div class="card-body" style="height: 7em;">

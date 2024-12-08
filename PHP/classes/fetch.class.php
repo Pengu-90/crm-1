@@ -156,7 +156,7 @@ class Fetch extends DbConn
                 </td>
                 <td>
                     <div class="p-1">
-                        <?php echo $order['last_name'] . ' ' . $order['first_name'] ?>
+                        <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
                     </div>
                 </td>
                 <td>
@@ -188,7 +188,7 @@ class Fetch extends DbConn
 
             $item = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $stmt = $this->connect()->prepare("SELECT * FROM `task_tbl` INNER JOIN `orders_tbl` ON `task_tbl`.`order_id` = `orders_tbl`.`order_id` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `task_tbl`.`order_id` = ?");
+            $stmt = $this->connect()->prepare("SELECT * FROM `task_tbl` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `task_tbl`.`order_id` = ?");
 
             if (!$stmt->execute(array($orderId))) {
                 $stmt = null;
@@ -217,16 +217,16 @@ class Fetch extends DbConn
                 </td>
                 <td>
                     <div class="p-1">
-                        <?php echo $order['last_name'] . ' ' . $order['first_name'] ?>
+                        <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
                     </div>
                 </td>
                 <td>
                     <div class="p-1">
-                        <?php echo $emp['emp_lname'] . ' ' . $emp['emp_fname'] ?>
+                        <?php echo $emp[0]['emp_lname'] . ', ' . $emp[0]['emp_fname'] ?>
                     </div>
                 </td>
                 <td>
-                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#task_assign" onclick="task(<?php echo $order['cart_id'] ?>)">S</button>
+                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#task_assign">S</button>
                     <button class="rounded-circle" style="width: 2em; height:2em">V</button>
                 </td>
             </tr>

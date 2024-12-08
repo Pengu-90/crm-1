@@ -128,8 +128,7 @@ task_form.addEventListener("submit", (e) => {
     .then((res) => res.text())
     .then((data) => {
       if (data != null) {
-        console.log(data)
-        // location.href = "./main.php?page=orders_process";
+        location.href = "./main.php?page=orders_process";
       }
     });
 });

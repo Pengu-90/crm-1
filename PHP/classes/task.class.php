@@ -54,7 +54,6 @@ class Task extends DbConn
             }
 
             print_r(true);
-
         } else {
             $availability = false;
 
@@ -66,9 +65,9 @@ class Task extends DbConn
             }
 
             $status = 'Pending';
-            $stmt = $this->connect()->prepare("INSERT INTO `task_tbl`(`admin_id`, `task_name`, `status`) VALUES (?,?,?)");
+            $stmt = $this->connect()->prepare("INSERT INTO `task_tbl`(`admin_id`, `order_id`, `task_name`, `status`) VALUES (?,?,?,?)");
 
-            if (!$stmt->execute(array($admin, $task, $status))) {
+            if (!$stmt->execute(array($admin, $orderId, $task, $status))) {
                 $stmt = null;
                 exit();
             }
@@ -84,7 +83,6 @@ class Task extends DbConn
             }
 
             print_r(true);
-
         }
     }
 }
