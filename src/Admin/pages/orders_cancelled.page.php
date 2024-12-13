@@ -13,11 +13,12 @@
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>Order id</th>
+                    <th>Order Id</th>
+                        <th>Order #</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
-                        <th>Delivered date</th>
-                        <th>Order by</th>
+                        <th>Order date</th>
+                        <!-- <th>Customer Name</th> -->
                         <th>Action</th>
                     </tr>
                 </thead>

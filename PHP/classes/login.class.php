@@ -16,11 +16,17 @@ class Login extends DbConn
             $verify_pwd = password_verify($pwd, $user[0]['Password']);
         } else {
             $stmt = null;
+            $res = null;
+            $json = json_encode($res);
+            print_r($json);
             exit();
         }
 
         if($verify_pwd == false) {
             $stmt = null;
+            $res = false;
+            $json = json_encode($res);
+            print_r($json);
             exit();
         } else {
             session_start();

@@ -35,7 +35,7 @@
                     </h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="./main.php?page=orders_pending"></a>
+                    <a class="small text-white stretched-link" href="./main.php?<?php echo $link_header ?>page=orders_pending"></a>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     <h1 class="ps-3 text-white">0</h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="./main.php?page=orders_cancelled"></a>
+                    <a class="small text-white stretched-link" href="./main.php?<?php echo $link_header ?>page=orders_cancelled"></a>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
                     </h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="./main.php?page=orders_delivered"></a>
+                    <a class="small text-white stretched-link" href="./main.php?<?php echo $link_header ?>page=orders_delivered"></a>
                 </div>
             </div>
         </div>
@@ -94,7 +94,9 @@
 
                         </div>
                     </div>
-                    <img class="col-2 bg-dark rounded" src="../img/attach-money.svg" alt="">
+                    <a class="col-2" href="./main.php?<?php echo $link_header ?>page=orders_sales">
+                        <img class="bg-dark rounded" src="../img/attach-money.svg" alt="">
+                    </a>
                 </div>
             </div>
         </div>

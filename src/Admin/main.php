@@ -4,6 +4,12 @@ include '../../PHP/includes/session_handler.inc.php';
 if (isset($_GET['empid'])) {
     $user = $_GET['empid'];
     $role = $_GET['role'];
+    $page = $_GET['page'];
+
+    $link_header = "role=$role&empid=$user&";
+} else {
+    $link_header = "";
+
 }
 ?>
 <!DOCTYPE html>
@@ -30,11 +36,15 @@ if (isset($_GET['empid'])) {
 </head>
 
 <body class="sb-nav-fixed">
+    <input type="text" name="link_head" id="link_head" hidden disabled value="<?php echo $link_header?>">
     <?php
     include './components/modals/user_details.modal.php';
+    include './components/modals/emp_details.modal.php';
     include './components/modals/user_add.modal.php';
     include './components/modals/task_assign.modal.php';
     include './components/modals/emp_add.modal.php';
+    include './components/modals/ship_order.modal.php';
+    include './components/modals/deliver.modal.php';
 
     include './components/top_nav.comp.php';
     ?>
@@ -55,6 +65,8 @@ if (isset($_GET['empid'])) {
                     include './pages/orders_process.page.php';
                 } else if ($_GET['page'] == 'orders_delivered') {
                     include './pages/orders_delivered.page.php';
+                }  else if ($_GET['page'] == 'orders_shipping') {
+                    include './pages/orders_shipping.page.php';
                 } else if ($_GET['page'] == 'orders_cancelled') {
                     include './pages/orders_cancelled.page.php';
                 } else if ($_GET['page'] == 'users') {

@@ -6,12 +6,12 @@ $control = new Fetch();
 
 if (isset($_GET['role'])) {
     if (!isset($_GET['view'])) {
-        $control->fetchProcessList($user);
+        $control->fetchShippingList($user);
     } else {
-        $control->fetchProcessList(null);
+        $control->fetchShippingList(null);
 
     }
 } else {
-    $control->fetchProcessList(null);
+    $control->fetchShippingList(null);
 
 }

@@ -23,6 +23,8 @@
                         </select>
                     </div>
 
+                    <weak id="task_err" class="text-danger p-2" hidden>*No Employee is currently available</weak>
+
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary w-100" type="submit" name="submit_user" id="submit_user">Assign task</button>

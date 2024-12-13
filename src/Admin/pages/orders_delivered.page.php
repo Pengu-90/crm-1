@@ -8,28 +8,28 @@
         <div class="card-header text-success">
             <i class="fas fa-table me-1"></i>
             <h4>Delivered Orders</h4>
+            <h2 class="ps-3 text-dark">
+                <?php
+                include '../../PHP/includes/fetchDelivered.inc.php'
+                ?>
+            </h2>
         </div>
         <div class="card-body">
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>Order id</th>
+                        <th>Order Id</th>
+                        <th>Order #</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Delivered date</th>
-                        <th>Order by</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1212</td>
-                        <td>Razor Gaming Chair</td>
-                        <td>1</td>
-                        <td>Febuary 19, 2024</td>
-                        <td>Pio Josh Daguil</td>
-                        <td><button class="">View</button></td>
-                    </tr>
+                    <?php
+                    include '../../PHP/includes/fetchDeliveredList.inc.php'
+                    ?>
 
                 </tbody>
             </table>

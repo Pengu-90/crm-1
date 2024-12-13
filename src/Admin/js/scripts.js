@@ -36,7 +36,8 @@ function user_details(
   country,
   email,
   num,
-  user
+  user,
+  id
 ) {
   const fname_inp = document.getElementById("firstname");
   const lname_inp = document.getElementById("lastname");
@@ -48,6 +49,7 @@ function user_details(
   const email_inp = document.getElementById("email");
   const contact_inp = document.getElementById("contact");
   const user_inp = document.getElementById("username");
+  const user_id = document.getElementById("user_id");
 
   fname_inp.value = fname;
   lname_inp.value = lname;
@@ -59,6 +61,27 @@ function user_details(
   email_inp.value = email;
   contact_inp.value = num;
   user_inp.value = user;
+  user_id.value = id;
+}
+
+function emp_details(
+  fname,
+  lname,
+  email,
+  user,
+  id
+) {
+  const fname_inp = document.getElementById("emp_firstname_edit");
+  const lname_inp = document.getElementById("emp_lastname_edit");
+  const email_inp = document.getElementById("emp_email_edit");
+  const user_inp = document.getElementById("emp_username_edit");
+  const emp_id = document.getElementById("emp_id_edit");
+
+  fname_inp.value = fname;
+  lname_inp.value = lname;
+  email_inp.value = email;
+  user_inp.value = user;
+  emp_id.value = id;
 }
 
 const user_form = document.getElementById("user_form");
@@ -127,8 +150,12 @@ task_form.addEventListener("submit", (e) => {
   })
     .then((res) => res.text())
     .then((data) => {
-      if (data != null) {
-        location.href = "./main.php?page=orders_process";
+      if (data != false) {
+        location.href = "./main.php?" + link_head + "&page=orders_pending";
+      } else {
+        console.log(data);
+        const err = document.getElementById("task_err");
+        err.removeAttribute("hidden");
       }
     });
 });
@@ -136,7 +163,6 @@ task_form.addEventListener("submit", (e) => {
 function task(id, order_id) {
   cartId.value = id;
   orderId.value = order_id;
-  console.log(orderId.value)
 }
 
 const emp_form = document.getElementById("emp_form");
@@ -167,9 +193,150 @@ emp_form.addEventListener("submit", (e) => {
       .then((res) => res.text())
       .then((data) => {
         if (data != null) {
-          console.log(data)
+          console.log(data);
           // location.href = "./main.php?page=users";
         }
       });
   }
+});
+
+const shipping_form = document.getElementById("shipping_form");
+const shipping_orderId = document.getElementById("shipping_orderId");
+const link_head = document.getElementById("link_head").value;
+
+shipping_form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  fetch("../../PHP/includes/shipping.inc.php", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json; charset = utf-8",
+    },
+    body: JSON.stringify({
+      orderId: shipping_orderId.value,
+    }),
+  })
+    .then((res) => res.text())
+    .then((data) => {
+      if (data != false) {
+        location.href = "./main.php?" + link_head + "&page=orders_process";
+      } else {
+        console.log(data);
+      }
+    });
+});
+
+function ship(order_id) {
+  shipping_orderId.value = order_id;
+}
+
+
+const deliver_form = document.getElementById("deliver_form");
+const deliver_orderId = document.getElementById("deliver_orderId");
+
+deliver_form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  fetch("../../PHP/includes/deliver.inc.php", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json; charset = utf-8",
+    },
+    body: JSON.stringify({
+      deliverId: deliver_orderId.value,
+    }),
+  })
+    .then((res) => res.text())
+    .then((data) => {
+      if (data != false) {
+        location.href = "./main.php?" + link_head + "&page=orders_shipping";
+
+      } else {
+        console.log(data);
+      }
+    });
+});
+
+function deliver(order_id) {
+  deliver_orderId.value = order_id;
+}
+
+
+
+const edit_user = document.getElementById("user_edit_form");
+const edit_firstname = document.getElementById("firstname");
+const edit_lastname = document.getElementById("lastname");
+const edit_address = document.getElementById("address");
+const edit_city = document.getElementById("city");
+const edit_province = document.getElementById("province");
+const edit_zip = document.getElementById("zip");
+const edit_country = document.getElementById("country");
+const edit_email = document.getElementById("email");
+const edit_contact = document.getElementById("contact");
+const edit_username = document.getElementById("username");
+const edit_password = document.getElementById("pwd");
+const edit_id = document.getElementById("user_id");
+
+edit_user.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  fetch("../../PHP/includes/edit_user.inc.php", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json; charset = utf-8",
+    },
+    body: JSON.stringify({
+      lastname: edit_lastname.value,
+      firstname: edit_firstname.value,
+      address: edit_address.value,
+      city: edit_city.value,
+      province: edit_province.value,
+      zip: edit_zip.value,
+      country: edit_country.value,
+      contact: edit_contact.value,
+      email: edit_email.value,
+      username: edit_username.value,
+      password: edit_password.value,
+      id: edit_id.value,
+    }),
+  })
+    .then((res) => res.text())
+    .then((data) => {
+      if (data != null) {
+        location.href = "./main.php?page=users";
+      }
+    });
+});
+
+const edit_emp = document.getElementById("emp_edit_form");
+const edit_firstname_emp = document.getElementById("emp_firstname_edit");
+const edit_lastname_emp = document.getElementById("emp_lastname_edit");
+const edit_email_emp = document.getElementById("emp_email_edit");
+const edit_user_emp = document.getElementById("emp_username_edit");
+const edit_pass_emp = document.getElementById("emp_password_edit");
+const edit_id_emp = document.getElementById("emp_id_edit");
+
+edit_emp.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  fetch("../../PHP/includes/edit_emp.inc.php", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json; charset = utf-8",
+    },
+    body: JSON.stringify({
+      lastname: edit_lastname_emp.value,
+      firstname: edit_firstname_emp.value,
+      email: edit_email_emp.value,
+      username: edit_user_emp.value,
+      password: edit_pass_emp.value,
+      id: edit_id_emp.value,
+    }),
+  })
+    .then((res) => res.text())
+    .then((data) => {
+      if (data != null) {
+        location.href = "./main.php?page=emp";
+      }
+    });
 });

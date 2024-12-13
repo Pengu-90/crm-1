@@ -3,7 +3,7 @@ class Fetch extends DbConn
 {
     public function fetchPendingTotal()
     {
-        $stmt = $this->connect()->prepare('SELECT `status` FROM `orders_tbl` WHERE `status` = "Pending" GROUP BY `order_number`');
+        $stmt = $this->connect()->prepare('SELECT `status` FROM `orders_tbl` WHERE `status` = "Pending"');
         $stmt->execute();
 
         $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -13,7 +13,7 @@ class Fetch extends DbConn
 
     public function fetchCustomerTotal()
     {
-        $stmt = $this->connect()->prepare('SELECT `status` FROM `orders_tbl` GROUP BY `order_number`');
+        $stmt = $this->connect()->prepare('SELECT `status` FROM `orders_tbl` GROUP BY `customer_id`');
         $stmt->execute();
 
         $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -93,9 +93,39 @@ class Fetch extends DbConn
         print_r($stmt->rowCount());
     }
 
-    public function fetchProcessTotal()
+    public function fetchProcessTotal($id)
+    {
+        $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `task_tbl` ON `orders_tbl`.`order_id` = `task_tbl`.`order_id` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `orders_tbl`.`status` = "Processing" && `employees_tbl`.`Id` = ?');
+        $stmt->execute(array($id));
+
+        $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        print_r($stmt->rowCount());
+    }
+
+    public function fetchProcessTotalAll()
     {
         $stmt = $this->connect()->prepare('SELECT `status` FROM `orders_tbl` WHERE `status` = "Processing"');
+        $stmt->execute();
+
+        $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        print_r($stmt->rowCount());
+    }
+
+    public function fetchShippingTotal($id)
+    {
+        $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `task_tbl` ON `orders_tbl`.`order_id` = `task_tbl`.`order_id` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `orders_tbl`.`status` = "Shipping" && `employees_tbl`.`Id` = ?');
+        $stmt->execute(array($id));
+
+        $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        print_r($stmt->rowCount());
+    }
+
+    public function fetchShippingTotalAll()
+    {
+        $stmt = $this->connect()->prepare('SELECT `status` FROM `orders_tbl` WHERE `status` = "Shipping"');
         $stmt->execute();
 
         $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -141,6 +171,11 @@ class Fetch extends DbConn
                 </td>
                 <td>
                     <div class="p-1">
+                        <?php echo $order['order_number'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
                         <?php echo $item[0]['product_name'] ?>
                     </div>
                 </td>
@@ -154,13 +189,20 @@ class Fetch extends DbConn
                         <?php echo $order['quantity'] ?>
                     </div>
                 </td>
-                <td>
+                <!-- <td>
                     <div class="p-1">
                         <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
                     </div>
-                </td>
+                </td> -->
                 <td>
-                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#task_assign" onclick="task(<?php echo $order['cart_id'] ?>, <?php echo $order['order_id'] ?>)">T</button>
+                    <?php
+                    if (!isset($_GET['role'])) {
+                    ?>
+                        <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#task_assign" onclick="task(<?php echo $order['cart_id'] ?>, <?php echo $order['order_id'] ?>)">T</button>
+
+                    <?php
+                    }
+                    ?>
                     <button class="rounded-circle" style="width: 2em; height:2em">V</button>
                 </td>
             </tr>
@@ -168,10 +210,91 @@ class Fetch extends DbConn
         }
     }
 
-    public function fetchProcessList()
+    public function fetchProcessList($id)
     {
-        $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` WHERE `status` = "Processing"');
-        $stmt->execute();
+        if ($id != null) {
+            $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `task_tbl` ON `orders_tbl`.`order_id` = `task_tbl`.`order_id` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `orders_tbl`.`status` = "Processing" && `employees_tbl`.`Id` = ?');
+            $stmt->execute(array($id));
+        } else {
+            $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` WHERE `status` = "Processing"');
+            $stmt->execute();
+        }
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $order) {
+            $itemId = $order['item_id'];
+            $orderId = $order['order_id'];
+
+            $stmt = $this->connect()->prepare("SELECT * FROM `item_tbl` WHERE `item_id` = ?");
+
+            if (!$stmt->execute(array($itemId))) {
+                $stmt = null;
+                exit();
+            }
+
+            $item = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $stmt = $this->connect()->prepare("SELECT * FROM `task_tbl` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `task_tbl`.`order_id` = ?");
+
+            if (!$stmt->execute(array($orderId))) {
+                $stmt = null;
+                exit();
+            }
+
+            $emp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        ?>
+            <tr>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['order_id'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['order_number'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $item[0]['product_name'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['quantity'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
+                    </div>
+                </td>
+                <!-- <td>
+                    <div class="p-1">
+                        <?php echo $emp[0]['emp_lname'] . ', ' . $emp[0]['emp_fname'] ?>
+                    </div>
+                </td> -->
+                <td>
+                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#ship_order" onclick="ship(<?php echo $order['order_id'] ?>)">S</button>
+                    <button class="rounded-circle" style="width: 2em; height:2em">V</button>
+                </td>
+            </tr>
+        <?php
+        }
+    }
+
+    public function fetchShippingList($id)
+    {
+        if ($id != null) {
+            $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `task_tbl` ON `orders_tbl`.`order_id` = `task_tbl`.`order_id` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `orders_tbl`.`status` = "Shipping" && `employees_tbl`.`Id` = ?');
+            $stmt->execute(array($id));
+        } else {
+            $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` WHERE `status` = "Shipping"');
+            $stmt->execute();
+        }
 
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -226,7 +349,79 @@ class Fetch extends DbConn
                     </div>
                 </td>
                 <td>
-                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#task_assign">S</button>
+                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#deliver_order" onclick="deliver(<?php echo $order['order_id'] ?>)">/</button>
+                    <button class="rounded-circle" style="width: 2em; height:2em">V</button>
+                </td>
+            </tr>
+        <?php
+        }
+    }
+
+    public function fetchDeliveredList()
+    {
+        $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` WHERE `status` = "Delivered"');
+        $stmt->execute();
+
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $order) {
+            $itemId = $order['item_id'];
+            $orderId = $order['order_id'];
+
+            $stmt = $this->connect()->prepare("SELECT * FROM `item_tbl` WHERE `item_id` = ?");
+
+            if (!$stmt->execute(array($itemId))) {
+                $stmt = null;
+                exit();
+            }
+
+            $item = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $stmt = $this->connect()->prepare("SELECT * FROM `task_tbl` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `task_tbl`.`order_id` = ?");
+
+            if (!$stmt->execute(array($orderId))) {
+                $stmt = null;
+                exit();
+            }
+
+            $emp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        ?>
+            <tr>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['order_id'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['order_number'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $item[0]['product_name'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['quantity'] ?>
+                    </div>
+                </td>
+                <!-- <td>
+                    <div class="p-1">
+                        <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
+                    </div>
+                </td> -->
+                <td>
+                    <div class="p-1">
+                        <?php echo $emp[0]['emp_lname'] . ', ' . $emp[0]['emp_fname'] ?>
+                    </div>
+                </td>
+                <td>
+                    <!-- <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#">/</button> -->
                     <button class="rounded-circle" style="width: 2em; height:2em">V</button>
                 </td>
             </tr>
@@ -281,7 +476,7 @@ class Fetch extends DbConn
                     </div>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#user_detail" onclick="user_details('<?php echo $details[0]['first_name']; ?>','<?php echo $details[0]['last_name']; ?>','<?php echo $details[0]['address_line']; ?>','<?php echo $details[0]['city']; ?>','<?php echo $details[0]['province']; ?>','<?php echo $details[0]['zipcode']; ?>','<?php echo $details[0]['country']; ?>','<?php echo $details[0]['email']; ?>','<?php echo $details[0]['number']; ?>','<?php echo $details[0]['Username']; ?>')">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#user_detail" onclick="user_details('<?php echo $details[0]['first_name']; ?>','<?php echo $details[0]['last_name']; ?>','<?php echo $details[0]['address_line']; ?>','<?php echo $details[0]['city']; ?>','<?php echo $details[0]['province']; ?>','<?php echo $details[0]['zipcode']; ?>','<?php echo $details[0]['country']; ?>','<?php echo $details[0]['email']; ?>','<?php echo $details[0]['number']; ?>','<?php echo $details[0]['Username']; ?>','<?php echo $details[0]['customer_id']; ?>')">
                         View
                     </button>
                 </td>
@@ -337,7 +532,7 @@ class Fetch extends DbConn
                     </div>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#user_detail" onclick="">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#emp_detail" onclick="emp_details('<?php echo $details[0]['emp_fname']; ?>', '<?php echo $details[0]['emp_lname']; ?>', '<?php echo $details[0]['email']; ?>', '<?php echo $details[0]['Username']; ?>', '<?php echo $details[0]['emp_id']; ?>')">
                         View
                     </button>
                 </td>

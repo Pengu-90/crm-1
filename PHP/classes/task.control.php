@@ -19,7 +19,6 @@ class TaskControl extends Task
     {
         if ($this->checkEmpty() != false) {
             print_r(false);
-            print_r('a');
 
             exit();
         } else {
@@ -27,14 +26,43 @@ class TaskControl extends Task
         }
     }
 
+    public function ship()
+    {
+        if ($this->checkEmptyShipment() != false) {
+            print_r(false);
+            exit();
+        } else {
+            $this->shipOrder($this->orderId);
+        }
+    }
+
+    public function deliver()
+    {
+        if ($this->checkEmptyShipment() != false) {
+            print_r(false);
+            exit();
+        } else {
+            $this->deliverOrder($this->orderId);
+        }
+    }
+
     private function checkEmpty()
     {
-        if (empty($this->admin) || empty($this->task)) {
+        if (empty($this->admin) || empty($this->task) || empty($this->cartId) || empty($this->orderId)) {
             return true;
             exit();
         } else {
             return false;
             exit();
+        }
+    }
+
+    private function checkEmptyShipment()
+    {
+        if (empty($this->orderId)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

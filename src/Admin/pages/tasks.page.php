@@ -13,10 +13,12 @@
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>Last Name</th>
-                        <th>First Name</th>
+                        <th>Employee Name</th>
                         <th>Task</th>
+                        <th>Date Added</th>
+                        <th>Date Completed</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>

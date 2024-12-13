@@ -1,0 +1,70 @@
+#06357a
+4380db
+
+public function signupUser($num, $addr, $city, $prov, $zip, $country, $email)
+
+
+$stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `task_tbl` ON `orders_tbl`.`order_id` = `task_tbl`.`order_id` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `orders_tbl`.`status` = "Processing" && `employees_tbl`.`Id` = ?');
+        $stmt->execute(array($id));
+
+        foreach ($emps as $emp) {
+                //check if emp has the lowest task point
+                
+
+                // check if available
+                if ($emp['availability'] == true) {
+
+                    //  check if task is less than 5
+                    $stmt = $this->connect()->prepare("SELECT COUNT(admin_id) AS total FROM task_tbl WHERE admin_id = ?");
+                    if (!$stmt->execute(array($emp['emp_id']))) {
+                        $stmt = null;
+                        exit();
+                    }
+
+                    $taskTotal = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    if ($taskTotal[0]['total'] < 5) {
+
+                        //add task
+                        $status = 'Pending';
+                        $stmt = $this->connect()->prepare("INSERT INTO `task_tbl`(`admin_id`, `order_id`, `task_name`, `status`) VALUES (?,?,?,?)");
+
+                        if (!$stmt->execute(array($emp['emp_id'], $orderId, $task, $status))) {
+                            $stmt = null;
+                            exit();
+                        }
+
+                        //update the order status
+                        $order_stats = 'Processing';
+
+                        $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ? WHERE `cart_id` = ?");
+
+                        if (!$stmt->execute(array($order_stats, $cartId))) {
+                            $stmt = null;
+                            exit();
+                        }
+
+                        //check if task is equal to 5 and change it to unavailable
+                        $stmt = $this->connect()->prepare("SELECT COUNT(admin_id) AS total FROM task_tbl WHERE admin_id = ?");
+                        if (!$stmt->execute(array($emp['emp_id']))) {
+                            $stmt = null;
+                            exit();
+                        }
+
+                        $checkTotal = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        if ($checkTotal[0]['total'] == 5) {
+                            $availability = false;
+
+                            $stmt = $this->connect()->prepare("UPDATE `employees_tbl` SET `availability`= ? WHERE `emp_id` = ?");
+
+                            if (!$stmt->execute(array($availability, $emp['emp_id']))) {
+                                $stmt = null;
+                                exit();
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }

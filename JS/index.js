@@ -1,7 +1,9 @@
 const login = document.getElementById("login_form");
 const form = document.getElementById("login-form");
 const message_box = document.getElementById("message-error");
+const message_box2 = document.getElementById("message-error2");
 const message_close_btn = document.getElementById("message-close");
+const message_close_btn2 = document.getElementById("message-close2");
 const usn_inp = document.getElementById("username");
 const pwd_inp = document.getElementById("password");
 const usn_label = document.getElementById("usn_label");
@@ -9,6 +11,14 @@ const pwd_label = document.getElementById("pwd_label");
 
 message_close_btn.addEventListener("click", () => {
   message_box.style.display = "none";
+  usn_inp.style.borderColor = "";
+  usn_label.style.color = "";
+  pwd_inp.style.borderColor = "";
+  pwd_label.style.color = "";
+});
+
+message_close_btn2.addEventListener("click", () => {
+  message_box2.style.display = "none";
   usn_inp.style.borderColor = "";
   usn_label.style.color = "";
   pwd_inp.style.borderColor = "";
@@ -64,7 +74,7 @@ login.addEventListener("submit", (e) => {
           pwd_label.style.color = "var(--red)";
         }
       } else {
-        message_box.style.display = "flex";
+        message_box2.style.display = "flex";
 
         usn_inp.style.borderColor = "var(--red)";
         pwd_inp.style.borderColor = "var(--red)";

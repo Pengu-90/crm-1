@@ -4,7 +4,8 @@
             <div class="nav">
                 <a class="nav-link mt-2 <?php if ($_GET['page'] == 'dashboard') {
                                             echo 'bg-info';
-                                        } ?>" href="./main.php?role=<?php echo $role ?>&empid=<?php echo $user ?>&page=dashboard">
+                                        } ?>"
+                    href="./main.php?<?php echo $link_header ?>page=dashboard">
                     <div class="sb-nav-link-icon d-flex"><img src="../img/material-symbols--space-dashboard-sharp.svg" alt=""></div>
                     Dashboard
                 </a>
@@ -92,31 +93,26 @@
                 </a>
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <?php
-                        if (!isset($_GET['role'])) {
-                        ?>
-                            <a class="nav-link <?php if ($_GET['page'] == 'orders_pending') {
-                                                    echo 'bg-dark';
-                                                } ?>" href="./main.php?page=orders_pending">Pending</a>
+                        <a class="nav-link <?php if ($_GET['page'] == 'orders_pending') {
+                                                echo 'bg-dark';
+                                            } ?>" href="./main.php?<?php echo $link_header ?>page=orders_pending">Pending</a>
 
-                        <?php
-                        }
-                        ?>
+
                         <a class="nav-link <?php if ($_GET['page'] == 'orders_process') {
                                                 echo 'bg-dark';
-                                            } ?>" href="./main.php?role=<?php echo $role ?>&empid=<?php echo $user ?>&page=orders_process">Processing</a>
+                                            } ?>" href="./main.php?<?php echo $link_header ?>page=orders_process">Processing</a>
                         <a class="nav-link <?php if ($_GET['page'] == 'orders_shipping') {
                                                 echo 'bg-dark';
-                                            } ?>" href="./main.php?role=<?php echo $role ?>&empid=<?php echo $user ?>&page=orders_shipping">Shipping</a>
+                                            } ?>" href="./main.php?<?php echo $link_header ?>page=orders_shipping">Shipment</a>
                         <a class="nav-link <?php if ($_GET['page'] == 'orders_delivered') {
                                                 echo 'bg-dark';
-                                            } ?>" href="./main.php?role=<?php echo $role ?>&empid=<?php echo $user ?>&page=orders_delivered">Delivered</a>
+                                            } ?>" href="./main.php?<?php echo $link_header ?>page=orders_delivered">Delivered</a>
                         <a class="nav-link <?php if ($_GET['page'] == 'orders_cancelled') {
                                                 echo 'bg-dark';
-                                            } ?>" href="./main.php?role=<?php echo $role ?>&empid=<?php echo $user ?>&page=orders_cancelled">Cancelled</a>
+                                            } ?>" href="./main.php?<?php echo $link_header ?>page=orders_cancelled">Cancelled</a>
                     </nav>
                 </div>
-                <a class="nav-link" href="./main.php?page=history">
+                <a class="nav-link" href="./main.php?<?php echo $link_header ?>page=sales">
                     <div class="sb-nav-link-icon"><img src="../img/bar-chart-4-bars.svg" alt=""></i></div>
                     Sales
                 </a>
@@ -124,19 +120,26 @@
                     <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
                     Notifications
                 </a> -->
-                <a class="nav-link" href="./main.php?page=task">
+                <a class="nav-link" href="./main.php?<?php echo $link_header ?>page=task">
                     <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
                     Tasks
                 </a>
-                <a class="nav-link" href="./main.php?page=tickets">
+                <a class="nav-link" href="./main.php?<?php echo $link_header ?>page=tickets">
                     <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
                     Tickets
                 </a>
-                <a class="nav-link" href="./main.php?page=emp">
-                    <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
-                    Employees
-                </a>
-                <a class="nav-link" href="./main.php?page=users">
+                <?php
+                if (!isset($_GET['role'])) {
+                ?>
+                    <a class="nav-link" href="./main.php?<?php echo $link_header ?>page=emp">
+                        <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
+                        Employees
+                    </a>
+
+                <?php
+                }
+                ?>
+                <a class="nav-link" href="./main.php?<?php echo $link_header ?>page=users">
                     <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
                     Users
                 </a>

@@ -37,6 +37,10 @@
                                         Incorrect username or password.
                                         <span class="message-close" id="message-close">X</span>
                                     </div>
+                                    <div class="message-error rounded justify-content-between align-items-center" id="message-error2">
+                                        This username doesn't exist.
+                                        <span class="message-close" id="message-close2">X</span>
+                                    </div>
                                     <div class="box w-100 shadow card" style="border-color: gray !important;">
 
                                         <form id="login_form" action="" method="post">

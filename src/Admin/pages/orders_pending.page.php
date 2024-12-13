@@ -8,16 +8,22 @@
         <div class="card-header text-warning">
             <i class="fas fa-table me-1"></i>
             <h4>Pending Orders</h4>
+            <h2 class="ps-3 text-dark">
+                <?php
+                include '../../PHP/includes/fetchPendingTotal.inc.php'
+                ?>
+            </h2>
         </div>
         <div class="card-body">
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>Order id</th>
+                        <th>Order Id</th>
+                        <th>Order #</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Order date</th>
-                        <th>Customer Name</th>
+                        <!-- <th>Customer Name</th> -->
                         <th>Action</th>
                     </tr>
                 </thead>
