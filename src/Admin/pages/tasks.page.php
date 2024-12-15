@@ -7,8 +7,6 @@
             <h4>Assigned Tasks</h4>
         </div>
 
-        <button class="btn btn-primary btn-sm mt-3 mx-3" data-bs-toggle="modal" data-bs-target="#user_add" style="width: 10% !important;">Add User</button>
-
         <div class="card-body">
             <table id="datatablesSimple">
                 <thead>

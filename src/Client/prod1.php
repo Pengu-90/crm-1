@@ -49,7 +49,7 @@ include './components/modals/cart.modal.php';
                                 <input type="text" name="user" id="user" value="<?php echo $user ?>" disabled hidden>
                                 <input type="text" name="item" id="item" value="1" disabled hidden>
                                 <input class="form-control w-25" type="number" name="qty" id="qty" value="1">
-                                <button type="submit" class="btn btn-primary mt-2 w-100" onclick="selectItem(250)">Add to cart</button>
+                                <button type="submit" class="btn btn-primary mt-2 w-100" onclick="selectItem(180)">Add to cart</button>
 
                             </form>
                             <!-- <button class="btn btn-primary mt-2 w-100" data-bs-toggle="modal" data-bs-target="#payment" onclick="selectItem(180)">Add to cart</button> -->

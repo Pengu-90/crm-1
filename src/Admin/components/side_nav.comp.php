@@ -124,10 +124,6 @@
                     <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
                     Tasks
                 </a>
-                <a class="nav-link" href="./main.php?<?php echo $link_header ?>page=tickets">
-                    <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
-                    Tickets
-                </a>
                 <?php
                 if (!isset($_GET['role'])) {
                 ?>
@@ -143,18 +139,6 @@
                     <div class="sb-nav-link-icon"><img src="../img/material-symbols--account-box-sharp.svg" alt=""></div>
                     Users
                 </a>
-
-                <?php
-                if (!isset($_GET['role'])) {
-                ?>
-                    <div class="sb-sidenav-menu-heading">Settings</div>
-                    <a class="nav-link" href="charts.html">
-                        <div class="sb-nav-link-icon"><img src="../img/material-symbols--settings.svg" alt=""></div>
-                        System Settings
-                    </a>
-                <?php
-                }
-                ?>
 
             </div>
         </div>

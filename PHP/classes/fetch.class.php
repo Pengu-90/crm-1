@@ -541,7 +541,7 @@ class Fetch extends DbConn
                         <div class="col-6">
                             <weak>Quantity: </weak>
                             <br>
-                            <p>Date Ordered: December 12, 2024</p>
+                            <p><?php echo $order['quantity'] ?></p>
                         </div>
 
                     </div>
@@ -552,9 +552,9 @@ class Fetch extends DbConn
                             <strong><?php echo $order['status'] ?></strong>
                         </div>
                         <div class="col-6">
-                            <weak>Date Ordered</weak>
+                            <weak>Date Ordered:</weak>
                             <br>
-                            <p>December 12, 2024</p>
+                            <p><?php echo $order['date_ordered'] ?></p>
                         </div>
                     </div>
                     <div class="col-12 d-flex gap-3">
@@ -703,11 +703,12 @@ class Fetch extends DbConn
             foreach ($results as $res) {
 
                 $orderId = $res['order_id'];
+                $userId = $res['user_id'];
 
                 if ($res['description'] == 'order_processing') {
                     print_r('
                         <li class="hover-nav">
-                            <a href="./main.php?user=<?php echo $id ?>&page=orders" class="text-decoration-none text-light">
+                            <a href="./main.php?user='. $userId .'&page=orders" class="text-decoration-none text-light">
                                 <div class="p-3 d-flex gap-5">
                                     <img src="../img/corplogo.png" alt="" style="width: 2em !important; height: 2em !important;">
                                     <span class="">
@@ -723,7 +724,7 @@ class Fetch extends DbConn
                 } else if ($res['description'] == 'order_shipping') {
                     print_r('
                         <li class="hover-nav">
-                            <a href="./main.php?user=<?php echo $id ?>&page=orders" class="text-decoration-none text-light">
+                            <a href="./main.php?user='. $userId .'&page=orders" class="text-decoration-none text-light">
                                 <div class="p-3 d-flex gap-5">
                                     <img src="../img/corplogo.png" alt="" style="width: 2em !important; height: 2em !important;">
                                     <span class="">
@@ -740,7 +741,7 @@ class Fetch extends DbConn
                 } else if ($res['description'] == 'order_delivered') {
                     print_r('
                         <li class="hover-nav">
-                            <a href="./main.php?user=<?php echo $id ?>&page=orders" class="text-decoration-none text-light">
+                            <a href="./main.php?user='. $userId .'&page=orders" class="text-decoration-none text-light">
                                 <div class="p-3 d-flex gap-5">
                                     <img src="../img/corplogo.png" alt="" style="width: 2em !important; height: 2em !important;">
                                     <span class="">
