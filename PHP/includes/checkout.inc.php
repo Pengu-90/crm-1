@@ -1,15 +1,10 @@
-<?php 
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
+<?php
+include_once '../classes/db_handler.class.php';
+include_once '../classes/cart.class.php';
+include_once '../classes/cart.control.php';
 
-if($data != null) {
-    include_once '../classes/db_handler.class.php';
-    include_once '../classes/cart.class.php';
-    include_once '../classes/cart.control.php';
+$user = $_POST['user'];
+print_r($user);
 
-    $user = $data['user'];
-
-    $control = new CartControl(null, null, $user, null, null);
-    $control->checkout();
-}
-
+$control = new CartControl(null, null, $user, null, null);
+$control->checkout();

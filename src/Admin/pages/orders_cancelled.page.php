@@ -13,7 +13,7 @@
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                    <th>Order Id</th>
+                        <th>Order Id</th>
                         <th>Order #</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
@@ -23,15 +23,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1212</td>
-                        <td>Razor Gaming Chair</td>
-                        <td>1</td>
-                        <td>Febuary 19, 2024</td>
-                        <td>Pio Josh Daguil</td>
-                        <td><button class="">View</button></td>
-                    </tr>
-
+                    <?php
+                    include '../../PHP/includes/fetchCancelled.inc.php'
+                    ?>
                 </tbody>
             </table>
         </div>

@@ -40,7 +40,7 @@ class Fetch extends DbConn
             if ($sales[0]['total'] == null) {
                 $sales = 0;
 ?>
-                <div class="col-6">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
                     <strong class="text-dark"><?php echo $item['product_name'] ?></strong>
                     <div class="d-flex text-dark align-items-center gap-2">
                         <h1 class="text-dark"><?php echo $sales ?></h1>
@@ -51,7 +51,7 @@ class Fetch extends DbConn
             <?php
             } else {
             ?>
-                <div class="col-6">
+                <div class="col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6">
                     <strong class="text-dark"><?php echo $item['product_name'] ?></strong>
                     <div class="d-flex text-dark align-items-center gap-2">
                         <h1 class="text-dark"><?php echo $sales[0]['total'] ?></h1>
@@ -186,7 +186,7 @@ class Fetch extends DbConn
                 </td>
                 <td>
                     <div class="p-1">
-                        <?php echo $order['quantity'] ?>
+                        <?php echo $order['date_ordered'] ?>
                     </div>
                 </td>
                 <!-- <td>
@@ -269,7 +269,7 @@ class Fetch extends DbConn
                 </td>
                 <td>
                     <div class="p-1">
-                        <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
+                        <?php echo $order['date_ordered'] ?>
                     </div>
                 </td>
                 <!-- <td>
@@ -330,6 +330,11 @@ class Fetch extends DbConn
                 </td>
                 <td>
                     <div class="p-1">
+                        <?php echo $order['order_number'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
                         <?php echo $item[0]['product_name'] ?>
                     </div>
                 </td>
@@ -340,16 +345,11 @@ class Fetch extends DbConn
                 </td>
                 <td>
                     <div class="p-1">
-                        <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
+                        <?php echo $order['date_ordered'] ?>
                     </div>
                 </td>
                 <td>
-                    <div class="p-1">
-                        <?php echo $emp[0]['emp_lname'] . ', ' . $emp[0]['emp_fname'] ?>
-                    </div>
-                </td>
-                <td>
-                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#deliver_order" onclick="deliver(<?php echo $order['order_id'] ?>)">/</button>
+                    <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#deliver_order" onclick="deliver(<?php echo $order['order_id'] ?>, <?php echo $emp[0]['emp_id'] ?>)">/</button>
                     <button class="rounded-circle" style="width: 2em; height:2em">V</button>
                 </td>
             </tr>
@@ -417,7 +417,7 @@ class Fetch extends DbConn
                 </td> -->
                 <td>
                     <div class="p-1">
-                        <?php echo $emp[0]['emp_lname'] . ', ' . $emp[0]['emp_fname'] ?>
+                        <?php echo $order['date_ordered'] ?>
                     </div>
                 </td>
                 <td>
@@ -426,6 +426,151 @@ class Fetch extends DbConn
                 </td>
             </tr>
         <?php
+        }
+    }
+
+    public function fetchCancelledList()
+    {
+        $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` WHERE `status` = "Cancelled"');
+        $stmt->execute();
+
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($res as $order) {
+            $itemId = $order['item_id'];
+            $orderId = $order['order_id'];
+
+            $stmt = $this->connect()->prepare("SELECT * FROM `item_tbl` WHERE `item_id` = ?");
+
+            if (!$stmt->execute(array($itemId))) {
+                $stmt = null;
+                exit();
+            }
+
+            $item = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $stmt = $this->connect()->prepare("SELECT * FROM `task_tbl` INNER JOIN `employees_tbl` ON `task_tbl`.`admin_id` = `employees_tbl`.`emp_id` WHERE `task_tbl`.`order_id` = ?");
+
+            if (!$stmt->execute(array($orderId))) {
+                $stmt = null;
+                exit();
+            }
+
+            $emp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+        ?>
+            <tr>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['order_id'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['order_number'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $item[0]['product_name'] ?>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['quantity'] ?>
+                    </div>
+                </td>
+                <!-- <td>
+                    <div class="p-1">
+                        <?php echo $order['last_name'] . ', ' . $order['first_name'] ?>
+                    </div>
+                </td> -->
+                <td>
+                    <div class="p-1">
+                        <?php echo $order['date_ordered'] ?>
+                    </div>
+                </td>
+                <td>
+                    <!-- <button class="rounded-circle" style="width: 2em; height:2em" data-bs-toggle="modal" data-bs-target="#">/</button> -->
+                    <button class="rounded-circle" style="width: 2em; height:2em">V</button>
+                </td>
+            </tr>
+        <?php
+        }
+    }
+
+    public function fetchUserOrder($id)
+    {
+        $stmt = $this->connect()->prepare('SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `item_tbl` ON `orders_tbl`.`item_id` = `item_tbl`.`item_id` INNER JOIN `users_tbl` ON `customer_details`.`Id` = `users_tbl`.`Id` WHERE `customer_details`.`Id` = ? order by `order_id` DESC');
+        $stmt->execute(array($id));
+
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($stmt->rowCount() <= 0) {
+        ?>
+            <div class="w-100 border text-center">
+                You currently have no orders yet.
+            </div>
+            <?php
+        } else {
+            foreach ($res as $order) {
+                $itemId = $order['item_id'];
+                $userId = $order['Id'];
+                $itemStats = $order['status'];
+
+                $stmt = $this->connect()->prepare("SELECT * FROM `item_tbl` WHERE `item_id` = ?");
+
+                if (!$stmt->execute(array($itemId))) {
+                    $stmt = null;
+                    exit();
+                }
+
+                $item = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+            ?>
+                <div class="border rounded row p-3 mb-2">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5><?php echo $item[0]['product_name'] ?></h5>
+                            <p>Order Id: <?php echo $order['order_id'] ?></p>
+                        </div>
+                        <div class="col-6">
+                            <weak>Quantity: </weak>
+                            <br>
+                            <p>Date Ordered: December 12, 2024</p>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <weak>Status</weak>
+                            <br>
+                            <strong><?php echo $order['status'] ?></strong>
+                        </div>
+                        <div class="col-6">
+                            <weak>Date Ordered</weak>
+                            <br>
+                            <p>December 12, 2024</p>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex gap-3">
+                        <?php
+                        if ($itemStats != 'Cancelled' && $itemStats != 'Delivered') {
+                        ?>
+                            <button class="btn btn-danger btn-sm" style="width: 10em;" onclick="cancelOrder(<?php echo $order['order_id'] ?>)">Cancel Order</button>
+
+                        <?php
+                        }
+                        ?>
+                    </div>
+
+                </div>
+            <?php
+            }
         }
     }
 
@@ -453,7 +598,7 @@ class Fetch extends DbConn
 
             $details = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        ?>
+            ?>
             <tr>
                 <td>
                     <div class="p-1">
@@ -541,6 +686,96 @@ class Fetch extends DbConn
         }
     }
 
+
+
+    public function fetchNotification($id)
+    {
+        $stmt = $this->connect()->prepare("SELECT * FROM `notifications_tbl` WHERE user_id = ? ORDER BY `notif_id` DESC");
+
+        if (!$stmt->execute(array($id))) {
+            $stmt = null;
+            exit();
+        }
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($stmt->rowCount() > 0) {
+            foreach ($results as $res) {
+
+                $orderId = $res['order_id'];
+
+                if ($res['description'] == 'order_processing') {
+                    print_r('
+                        <li class="hover-nav">
+                            <a href="./main.php?user=<?php echo $id ?>&page=orders" class="text-decoration-none text-light">
+                                <div class="p-3 d-flex gap-5">
+                                    <img src="../img/corplogo.png" alt="" style="width: 2em !important; height: 2em !important;">
+                                    <span class="">
+                                        Your order <strong>'. $orderId .'</strong> has been recieved.
+
+                                    </span>
+
+                                </div>
+                            </a>
+
+                        </li>
+                    ');
+                } else if ($res['description'] == 'order_shipping') {
+                    print_r('
+                        <li class="hover-nav">
+                            <a href="./main.php?user=<?php echo $id ?>&page=orders" class="text-decoration-none text-light">
+                                <div class="p-3 d-flex gap-5">
+                                    <img src="../img/corplogo.png" alt="" style="width: 2em !important; height: 2em !important;">
+                                    <span class="">
+                                        We are now shipping your order <strong>'. $orderId .'</strong>.
+
+                                    </span>
+
+                                </div>
+                            </a>
+
+                        </li>
+                
+                     ');
+                } else if ($res['description'] == 'order_delivered') {
+                    print_r('
+                        <li class="hover-nav">
+                            <a href="./main.php?user=<?php echo $id ?>&page=orders" class="text-decoration-none text-light">
+                                <div class="p-3 d-flex gap-5">
+                                    <img src="../img/corplogo.png" alt="" style="width: 2em !important; height: 2em !important;">
+                                    <span class="">
+                                        Hooray! Order <strong>'. $orderId .'</strong> successfully delivered.
+
+                                    </span>
+
+                                </div>
+                            </a>
+
+                        </li>
+                    ');
+                }
+            }
+        } else {
+        ?>
+            <li class="text-info text-center">
+                No notifications yet.
+            </li>
+        <?php
+        }
+    }
+    public function getOrder($id)
+    {
+        $stmt = $this->connect()->prepare("SELECT * FROM `notifications_tbl` WHERE user_id = ? ORDER BY `notif_id` DESC");
+
+        if (!$stmt->execute(array($id))) {
+            $stmt = null;
+            exit();
+        }
+    }
+
+
+
+
     public function fetchAvailableEmp()
     {
         $availability = true;
@@ -586,7 +821,6 @@ class Fetch extends DbConn
 
             ?>
                 <tr>
-                    <td><input type="checkbox" name="" id=""></td>
                     <td><?php echo $item[0]['product_name'] ?></td>
                     <td><?php echo $cart['quantity'] ?></td>
                     <td><?php echo $cart['total_amount'] ?></td>

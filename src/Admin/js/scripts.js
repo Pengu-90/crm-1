@@ -64,13 +64,7 @@ function user_details(
   user_id.value = id;
 }
 
-function emp_details(
-  fname,
-  lname,
-  email,
-  user,
-  id
-) {
+function emp_details(fname, lname, email, user, id) {
   const fname_inp = document.getElementById("emp_firstname_edit");
   const lname_inp = document.getElementById("emp_lastname_edit");
   const email_inp = document.getElementById("emp_email_edit");
@@ -193,8 +187,7 @@ emp_form.addEventListener("submit", (e) => {
       .then((res) => res.text())
       .then((data) => {
         if (data != null) {
-          console.log(data);
-          // location.href = "./main.php?page=users";
+          location.href = "./main.php?" + link_head + "&page=users";
         }
       });
   }
@@ -230,9 +223,9 @@ function ship(order_id) {
   shipping_orderId.value = order_id;
 }
 
-
 const deliver_form = document.getElementById("deliver_form");
 const deliver_orderId = document.getElementById("deliver_orderId");
+const deliver_empId = document.getElementById("deliver_empId");
 
 deliver_form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -244,24 +237,23 @@ deliver_form.addEventListener("submit", (e) => {
     },
     body: JSON.stringify({
       deliverId: deliver_orderId.value,
+      empId: deliver_empId.value,
     }),
   })
     .then((res) => res.text())
     .then((data) => {
       if (data != false) {
         location.href = "./main.php?" + link_head + "&page=orders_shipping";
-
       } else {
         console.log(data);
       }
     });
 });
 
-function deliver(order_id) {
+function deliver(order_id, emp_id) {
   deliver_orderId.value = order_id;
+  deliver_empId.value = emp_id;
 }
-
-
 
 const edit_user = document.getElementById("user_edit_form");
 const edit_firstname = document.getElementById("firstname");

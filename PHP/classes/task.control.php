@@ -42,7 +42,7 @@ class TaskControl extends Task
             print_r(false);
             exit();
         } else {
-            $this->deliverOrder($this->orderId);
+            $this->deliverOrder($this->orderId, $this->admin);
         }
     }
 

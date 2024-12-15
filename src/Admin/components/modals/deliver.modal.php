@@ -1,6 +1,6 @@
 <div class="modal fade" id="deliver_order" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog w-25" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog w-100 d-flex justify-content-center" role="document">
+        <div class="modal-content w-75">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Deliver Order</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
@@ -8,7 +8,8 @@
             </div>
             <form action="" method="post" id="deliver_form">
                 <div class="modal-body">
-                    <input type="text" name="shipping_orderId" id="deliver_orderId" disabled hidden>
+                    <input type="text" name="deliver_orderId" id="deliver_orderId" disabled hidden>
+                    <input type="text" name="deliver_empId" id="deliver_empId" disabled hidden>
                     <p>Is this item already delivered?</p>
                 </div>
                 <div class="modal-footer">

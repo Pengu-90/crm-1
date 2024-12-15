@@ -30,7 +30,7 @@ if (isset($_GET['user'])) {
 
                 <form action="" id="checkout_form">
                     <div class="my-3">
-                        <input type="text" name="user" id="user" value="<?php echo $user ?>" disabled hidden>
+                        <input type="text" name="user" id="user" value="<?php echo $user ?>" hidden>
                         <label for="tix_type">Select Method:</label>
                         <select class="form-select" name="pay_method" id="pay_method">
                             <option value="1">PayMama</option>

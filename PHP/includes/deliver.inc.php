@@ -8,7 +8,8 @@ if ($data != null) {
     include_once '../classes/task.control.php';
 
     $deliverId = $data['deliverId'];
+    $empId = $data['empId'];
 
-    $controller = new TaskControl(null, null, null, $deliverId);
+    $controller = new TaskControl($empId, null, null, $deliverId);
     $controller->deliver();
 }

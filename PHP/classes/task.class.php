@@ -5,9 +5,9 @@ class Task extends DbConn
     {
         $availability = true;
 
-        $stmt = $this->connect()->prepare("SELECT * FROM `employees_tbl` WHERE `availability`");
+        $stmt = $this->connect()->prepare("SELECT * FROM `employees_tbl` WHERE `availability` = ?");
 
-        if (!$stmt->execute()) {
+        if (!$stmt->execute(array($availability))) {
             $stmt = null;
             exit();
             print_r(false);
@@ -54,10 +54,35 @@ class Task extends DbConn
 
                         //update the order status
                         $order_stats = 'Processing';
+                        $date = date("l, F j, Y");
 
-                        $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ? WHERE `cart_id` = ?");
 
-                        if (!$stmt->execute(array($order_stats, $cartId))) {
+                        $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ?, `date_processed` = ? WHERE `cart_id` = ?");
+
+                        if (!$stmt->execute(array($order_stats, $date, $cartId))) {
+                            $stmt = null;
+                            exit();
+                        }
+
+
+                        // For Notifications
+                        $stmt = $this->connect()->prepare("SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `users_tbl` ON `customer_details`.`Id` = `users_tbl`.`Id` WHERE `orders_tbl`.`order_id` = ?");
+
+                        if (!$stmt->execute(array($orderId))) {
+                            $stmt = null;
+                            exit();
+                        }
+
+                        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        $customerId = $res[0]['Id'];
+                        $notifOrder = $res[0]['order_id'];
+                        $userType = 'user';
+                        $description = 'order_processing';
+
+                        $stmt = $this->connect()->prepare("INSERT INTO `notifications_tbl`(`user_id`, `date`, `type`, `description`, `order_id`) VALUES (?,?,?,?,?)");
+
+                        if (!$stmt->execute(array($customerId, $date, $userType, $description, $notifOrder))) {
                             $stmt = null;
                             exit();
                         }
@@ -85,7 +110,7 @@ class Task extends DbConn
                         }
 
                         break;
-                    } else if ($taskTotal2[0]['total'] >= $taskTotal1[0]['total']) {
+                    } else if ($taskTotal2[0]['total'] > $taskTotal1[0]['total']) {
                         $i--;
 
                         //add task
@@ -99,6 +124,7 @@ class Task extends DbConn
 
                         //update the order status
                         $order_stats = 'Processing';
+                        $date = date("l, F j, Y");
 
                         $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ? WHERE `cart_id` = ?");
 
@@ -106,6 +132,32 @@ class Task extends DbConn
                             $stmt = null;
                             exit();
                         }
+
+
+
+
+                        // For Notifications
+                        $stmt = $this->connect()->prepare("SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `users_tbl` ON `customer_details`.`Id` = `users_tbl`.`Id` WHERE `orders_tbl`.`order_id` = ?");
+
+                        if (!$stmt->execute(array($orderId))) {
+                            $stmt = null;
+                            exit();
+                        }
+
+                        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        $customerId = $res[0]['Id'];
+                        $notifOrder = $res[0]['order_id'];
+                        $userType = 'user';
+                        $description = 'order_processing';
+
+                        $stmt = $this->connect()->prepare("INSERT INTO `notifications_tbl`(`user_id`, `date`, `type`, `description`, `order_id`) VALUES (?,?,?,?,?)");
+
+                        if (!$stmt->execute(array($customerId, $date, $userType, $description, $notifOrder))) {
+                            $stmt = null;
+                            exit();
+                        }
+
 
 
 
@@ -134,7 +186,7 @@ class Task extends DbConn
                     }
                 } else {
                     $i--;
-                    
+
                     //add task
                     $status = 'Pending';
                     $stmt = $this->connect()->prepare("INSERT INTO `task_tbl`(`admin_id`, `order_id`, `task_name`, `status`) VALUES (?,?,?,?)");
@@ -146,6 +198,7 @@ class Task extends DbConn
 
                     //update the order status
                     $order_stats = 'Processing';
+                    $date = date("l, F j, Y");
 
                     $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ? WHERE `cart_id` = ?");
 
@@ -153,6 +206,32 @@ class Task extends DbConn
                         $stmt = null;
                         exit();
                     }
+
+
+
+
+                    // For Notifications
+                    $stmt = $this->connect()->prepare("SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `users_tbl` ON `customer_details`.`Id` = `users_tbl`.`Id` WHERE `orders_tbl`.`order_id` = ?");
+
+                    if (!$stmt->execute(array($orderId))) {
+                        $stmt = null;
+                        exit();
+                    }
+
+                    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    $customerId = $res[0]['Id'];
+                    $notifOrder = $res[0]['order_id'];
+                    $userType = 'user';
+                    $description = 'order_processing';
+
+                    $stmt = $this->connect()->prepare("INSERT INTO `notifications_tbl`(`user_id`, `date`, `type`, `description`, `order_id`) VALUES (?,?,?,?,?)");
+
+                    if (!$stmt->execute(array($customerId, $date, $userType, $description, $notifOrder))) {
+                        $stmt = null;
+                        exit();
+                    }
+
 
 
 
@@ -182,13 +261,24 @@ class Task extends DbConn
 
             print_r(true);
         } else {
-            $availability = false;
-
-            $stmt = $this->connect()->prepare("UPDATE `employees_tbl` SET `availability`= ? WHERE `emp_id` = ?");
-
-            if (!$stmt->execute(array($availability, $admin))) {
+            $stmt = $this->connect()->prepare("SELECT COUNT(admin_id) AS total FROM task_tbl WHERE admin_id = ?");
+            if (!$stmt->execute(array($admin))) {
                 $stmt = null;
                 exit();
+            }
+
+            $taskTotal = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+            if ($taskTotal[0]['total'] == 5) {
+                $availability = false;
+
+                $stmt = $this->connect()->prepare("UPDATE `employees_tbl` SET `availability`= ? WHERE `emp_id` = ?");
+
+                if (!$stmt->execute(array($availability, $admin))) {
+                    $stmt = null;
+                    exit();
+                }
             }
 
             $status = 'Pending';
@@ -200,6 +290,7 @@ class Task extends DbConn
             }
 
             $order_stats = 'Processing';
+            $date = date("l, F j, Y");
 
             $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ? WHERE `cart_id` = ?");
 
@@ -209,6 +300,33 @@ class Task extends DbConn
                 exit();
             }
 
+
+
+
+            // For Notifications
+            $stmt = $this->connect()->prepare("SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `users_tbl` ON `customer_details`.`Id` = `users_tbl`.`Id` WHERE `orders_tbl`.`order_id` = ?");
+
+            if (!$stmt->execute(array($orderId))) {
+                $stmt = null;
+                exit();
+            }
+
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $customerId = $res[0]['Id'];
+            $notifOrder = $res[0]['order_id'];
+            $userType = 'user';
+            $description = 'order_processing';
+
+            $stmt = $this->connect()->prepare("INSERT INTO `notifications_tbl`(`user_id`, `date`, `type`, `description`, `order_id`) VALUES (?,?,?,?,?)");
+
+            if (!$stmt->execute(array($customerId, $date, $userType, $description, $notifOrder))) {
+                $stmt = null;
+                exit();
+            }
+
+
+
             print_r(true);
         }
     }
@@ -216,6 +334,8 @@ class Task extends DbConn
     public function shipOrder($orderId)
     {
         $order_stats = 'Shipping';
+        $date = date("l, F j, Y");
+
 
         $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ? WHERE `order_id` = ?");
 
@@ -224,16 +344,83 @@ class Task extends DbConn
             exit();
         }
 
+
+        // For Notifications
+        $stmt = $this->connect()->prepare("SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `users_tbl` ON `customer_details`.`Id` = `users_tbl`.`Id` WHERE `orders_tbl`.`order_id` = ?");
+
+        if (!$stmt->execute(array($orderId))) {
+            $stmt = null;
+            exit();
+        }
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $customerId = $res[0]['Id'];
+        $notifOrder = $res[0]['order_id'];
+        $userType = 'user';
+        $description = 'order_shipping';
+
+        $stmt = $this->connect()->prepare("INSERT INTO `notifications_tbl`(`user_id`, `date`, `type`, `description`, `order_id`) VALUES (?,?,?,?,?)");
+
+        if (!$stmt->execute(array($customerId, $date, $userType, $description, $notifOrder))) {
+            $stmt = null;
+            exit();
+        }
+
         print_r(true);
     }
 
-    public function deliverOrder($orderId)
+    public function deliverOrder($orderId, $empId)
     {
         $order_stats = 'Delivered';
+        $date = date("l, F j, Y");
+
 
         $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`= ? WHERE `order_id` = ?");
 
         if (!$stmt->execute(array($order_stats, $orderId))) {
+            $stmt = null;
+            exit();
+        }
+
+
+
+        // For Notifications
+        $stmt = $this->connect()->prepare("SELECT * FROM `orders_tbl` INNER JOIN `customer_details` ON `orders_tbl`.`customer_id` = `customer_details`.`customer_id` INNER JOIN `users_tbl` ON `customer_details`.`Id` = `users_tbl`.`Id` WHERE `orders_tbl`.`order_id` = ?");
+
+        if (!$stmt->execute(array($orderId))) {
+            $stmt = null;
+            exit();
+        }
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $customerId = $res[0]['Id'];
+        $notifOrder = $res[0]['order_id'];
+        $userType = 'user';
+        $description = 'order_delivered';
+
+        $stmt = $this->connect()->prepare("INSERT INTO `notifications_tbl`(`user_id`, `date`, `type`, `description`, `order_id`) VALUES (?,?,?,?,?)");
+
+        if (!$stmt->execute(array($customerId, $date, $userType, $description, $notifOrder))) {
+            $stmt = null;
+            exit();
+        }
+
+
+
+        $empStats = true;
+
+        $stmt = $this->connect()->prepare("UPDATE `employees_tbl` SET `availability`=? WHERE `emp_id` = ?");
+
+        if (!$stmt->execute(array($empStats, $empId))) {
+            $stmt = null;
+            exit();
+        }
+
+        $stmt = $this->connect()->prepare("DELETE FROM `task_tbl` WHERE `order_id` = ?");
+
+        if (!$stmt->execute(array($orderId))) {
             $stmt = null;
             exit();
         }

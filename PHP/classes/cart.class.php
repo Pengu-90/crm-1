@@ -36,6 +36,47 @@ class Cart extends DbConn
         print_r(true);
     }
 
+    public function cancelOrder($item)
+    {
+
+        $stmt = $this->connect()->prepare("UPDATE `orders_tbl` SET `status`='Cancelled' WHERE `order_id` = ?");
+
+        if (!$stmt->execute(array($item))) {
+            $stmt = null;
+            exit();
+        }
+
+
+        $stmt = $this->connect()->prepare("SELECT * FROM `orders_tbl` INNER JOIN `task_tbl` ON `orders_tbl`.`order_id` = `task_tbl`.`order_id` INNER JOIN `employees_tbl` ON `employees_tbl`.`emp_id` = `task_tbl`.`admin_id` WHERE `orders_tbl`.`order_id` = ?");
+
+        if (!$stmt->execute(array($item))) {
+            $stmt = null;
+            exit();
+        }
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $empId = $res[0]['emp_id'];
+
+        $availability = true;
+
+        $stmt = $this->connect()->prepare("UPDATE `employees_tbl` SET `availability`= ? WHERE `emp_id` = ?");
+
+        if (!$stmt->execute(array($availability, $empId))) {
+            $stmt = null;
+            exit();
+        }
+
+        $stmt = $this->connect()->prepare("DELETE FROM `task_tbl` WHERE `order_id` = ?");
+
+        if (!$stmt->execute(array($item))) {
+            $stmt = null;
+            exit();
+        }
+
+
+        print_r(true);
+    }
+
     public function checkoutCart($user)
     {
 
@@ -57,9 +98,11 @@ class Cart extends DbConn
             $amount = $item['total_amount'];
             $status = 'Pending';
 
-            $stmt = $this->connect()->prepare("INSERT INTO `orders_tbl`(`order_number`, `cart_id`, `quantity`, `item_id`, `customer_id`, `status`, `total_amount`) VALUES (?,?,?,?,?,?,?)");
+            $date = date("l, F j, Y");
 
-            if (!$stmt->execute(array($cart, $cartId, $qty, $itemId, $customerId, $status, $amount))) {
+            $stmt = $this->connect()->prepare("INSERT INTO `orders_tbl`(`order_number`, `cart_id`, `quantity`, `item_id`, `customer_id`, `status`, `total_amount`, `date_ordered`) VALUES (?,?,?,?,?,?,?,?)");
+
+            if (!$stmt->execute(array($cart, $cartId, $qty, $itemId, $customerId, $status, $amount, $date))) {
                 $stmt = null;
                 exit();
             }

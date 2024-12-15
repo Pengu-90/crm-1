@@ -32,6 +32,11 @@ class CartControl extends Cart
         $this->deleteItem($this->itemId);
     }
 
+    public function cancel()
+    {
+        $this->cancelOrder($this->itemId);
+    }
+
     public function checkout()
     {
         $this->checkoutCart($this->user);

@@ -47,7 +47,11 @@
                         <img src="../img/cancel.svg" alt="">
 
                     </div>
-                    <h1 class="ps-3 text-white">0</h1>
+                    <h1 class="ps-3 text-white">
+                        <?php
+                        include '../../PHP/includes/fetchCancelledTotal.inc.php'
+                        ?>
+                    </h1>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="./main.php?<?php echo $link_header ?>page=orders_cancelled"></a>
@@ -76,13 +80,13 @@
 
     </div>
     <div class="row mx-3 mt-5 mb-4">
-    <div class="d-flex justify-content-end">
-        <p id="a">:</p>
-    </div>
-        <div class="col-6">
+        <div class="d-flex justify-content-end">
+            <p id="a">:</p>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <div class="card bg-light text-white mb-4 shadow-sm">
                 <div class="card-body row justify-content-between">
-                    <div class="col-10">
+                    <div class="col-xl-10 col-lg-9 col-md-9 col-sm-8 col-auto">
                         <strong class="text-dark">Total Sales</strong>
                         <div class="d-flex text-dark align-items-center gap-2">
                             <h1 class="text-dark">
@@ -94,13 +98,13 @@
 
                         </div>
                     </div>
-                    <a class="col-2" href="./main.php?<?php echo $link_header ?>page=orders_sales">
+                    <a class="d-flex justify-content-center p-3 col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4" href="./main.php?<?php echo $link_header ?>page=orders_sales">
                         <img class="bg-dark rounded" src="../img/attach-money.svg" alt="">
                     </a>
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <div class="card bg-light text-white mb-4 shadow-sm">
                 <div class="card-body">
                     <div class="row">
